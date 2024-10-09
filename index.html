@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Password Generator</title>
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            font-family: Arial, sans-serif;
+        }
+        /* Video background */
+        .video-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            min-width: 100%;
+            min-height: 100%;
+            z-index: -1;
+            object-fit: cover;
+        }
+        /* Container at the top */
+        .container {
+            position: absolute;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: rgba(0, 0, 0, 0.30);
+            backdrop-filter: blur(5px);
+            border: 1.5px solid white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            color: white;
+            width: 90%;
+            max-width: 450px;
+        }
+        input[type="checkbox"] {
+            margin-right: 10px;
+        }
+        button {
+            background-color: red;
+            color: #fff;
+            border: none;
+            padding: 10px;
+            width: 100%;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: red;
+        }
+        #password {
+            margin-top: 20px;
+            font-size: 18px;
+            background-color: rgba(0, 0, 0, 0.30);
+            backdrop-filter: blur(5px);
+            border: 1.5px solid white;
+            padding: 10px;
+            border-radius: 5px;
+            width: 93%;
+            height: 30px;
+            border: 1px solid #ddd;
+        }
+        #strength {
+            margin-top: 10px;
+            font-size: 14px;
+            font-weight: bold;
+        }
+        select {
+            width: 100%;
+            padding: 5px;
+            border-radius: 5px;
+            margin-top: 10px;
+        }
+        /* Responsive adjustments */
+        @media only screen and (max-width: 600px) {
+            .container {
+                top: 10px;
+                padding: 15px;
+            }
+            .video-bg {
+                height: 100vh;
+                width: 100vw;
+                object-fit: fill;
+            }
+        }
+        @media only screen and (min-width: 768px) {
+            .video-bg {
+                height: 100vh;
+                width: 100vw;
+                object-fit: cover;
+            }
+        }
+        /* Music controls */
+        .music-controls {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          position: absolute ;
+            margin-top: 15px;
+            width: 60px ;
+            height: 60px ;
+            background-color: rgba(0, 0, 0, 0.30);
+            backdrop-filter: blur(5px);
+            border: 1px solid white ;
+            border-radius: 50%;
+            left: 0px ;
+        }
+        .music-button {
+            width: 40px;
+            height: 40px;
+            cursor: pointer;
+        }
+        .rr{
+          position: absolute ;
+          bottom: 20px;
+          background: rgba(225, 225, 225, 0.30);
+          backdrop-filter: blur(10px);          border: 1.5px solid black;
+          padding: 20px ;
+          text-align: center ;
+          font-weight: bold ;
+          border-radius: 0px 10px 10px 0px;
+        }
+    </style>
+</head>
+<body>
+  
+  
+  <p class="rr">Designed and developed by Hassan</p>
+  
+    <!-- Background sound -->
+    <audio id="backgroundMusic" loop>
+        <source src="Damalyahow(256k).mp3" type="audio/mpeg">
+        Your browser does not support the audio tag.
+    </audio>
+  
+    <!-- Video background -->
+    <video autoplay muted loop class="video-bg">
+        <source src="video.mp4" type="video/mp4">
+        Your browser does not support HTML5 video.
+    </video>
+
+    <!-- Content Container -->
+    <div class="container">
+        <h2>Samayso Password Xoogan</h2>
+        <label>
+            <input type="checkbox" id="includeNumbers"> kudar Numbers
+        </label><br>
+        <label>
+            <input type="checkbox" id="includeLowercase"> Kudar Xarfo Yar Yar
+        </label><br>
+        <label>
+            <input type="checkbox" id="includeUppercase"> Kudar Xarfo Waaweyn
+        </label><br>
+        <label>
+            <input type="checkbox" id="includeSymbols"> Kudar Calaamado
+        </label><br><br>
+        <label>
+            Dhererka:
+            <select id="passwordLength">
+                <option value="12">12</option>
+                <option value="13">13</option>
+                <option value="14">14</option>
+                <option value="15">15</option>
+                <option value="16">16</option>
+                <option value="17">17</option>
+                <option value="18">18</option>
+                <option value="19">19</option>
+                <option value="20">20</option>
+            </select>
+        </label><br><br>
+        <button onclick="generatePassword()">Samee passwordka</button>
+        <div id="password"></div>
+        <div id="strength"></div>
+
+        <!-- Music controls -->
+        <div class="music-controls">
+            <img src="paused.png" id="playPauseButton" class="music-button" onclick="toggleMusic()">
+        </div>
+    </div>
+
+    <script>
+        const audio = document.getElementById("backgroundMusic");
+        const playPauseButton = document.getElementById("playPauseButton");
+
+        function toggleMusic() {
+            if (audio.paused) {
+                audio.play();
+                playPauseButton.src = "playing.png"; // Change to pause button
+            } else {
+                audio.pause();
+                playPauseButton.src = "paused.png"; // Change to play button
+            }
+        }
+
+        function generatePassword() {
+            const includeNumbers = document.getElementById('includeNumbers').checked;
+            const includeLowercase = document.getElementById('includeLowercase').checked;
+            const includeUppercase = document.getElementById('includeUppercase').checked;
+            const includeSymbols = document.getElementById('includeSymbols').checked;
+            const passwordLength = document.getElementById('passwordLength').value;
+
+            const numbers = '0123456789';
+            const lowercase = 'abcdefghijklmnopqrstuvwxyz';
+            const uppercase = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+            const symbols = '!@#$%^&*()_+[]{}|;:,.<>?';
+
+            let characters = '';
+            if (includeNumbers) characters += numbers;
+            if (includeLowercase) characters += lowercase;
+            if (includeUppercase) characters += uppercase;
+            if (includeSymbols) characters += symbols;
+
+            if (characters === '') {
+                alert("Fadlan dooro ugu yaraan mid kamid ah checkboxyada");
+                return;
+            }
+
+            let password = '';
+            for (let i = 0; i < passwordLength; i++) {
+                password += characters.charAt(Math.floor(Math.random() * characters.length));
+            }
+
+            document.getElementById('password').textContent = password;
+
+            evaluatePasswordStrength(includeNumbers, includeLowercase, includeUppercase, includeSymbols, passwordLength);
+        }
+
+        function evaluatePasswordStrength(numbers, lowercase, uppercase, symbols, length) {
+            let strengthMessage = '';
+            let strengthScore = 0;
+
+            if (numbers) strengthScore++;
+            if (lowercase) strengthScore++;
+            if (uppercase) strengthScore++;
+            if (symbols) strengthScore++;
+
+            if (length >= 12) {
+                strengthScore++;
+            } else if (length >= 16) {
+                strengthScore += 2;
+            } else if (length >= 20) {
+                strengthScore += 3;
+            }
+
+            switch (strengthScore) {
+                case 6:
+                case 7:
+                    strengthMessage = "Aad U awood badan";
+                    break;
+                case 5:
+                    strengthMessage = "Awood badan";
+                    break;
+                case 4:
+                    strengthMessage = "Dhexdhexaad ah";
+                    break;
+                case 3:
+                    strengthMessage = "Daciif ah";
+                    break;
+                default:
+                    strengthMessage = "Aad daciif u ah";
+                    break;
+            }
+
+            document.getElementById('strength').textContent = "Awooda passwordka: " + strengthMessage;
+        }
+    </script>
+</body>
+</html>
